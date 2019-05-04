@@ -1,0 +1,46 @@
+\documentclass[tikz,convert={outfile=\jobname.svg}]{standalone}
+%\usetikzlibrary{...}% tikz package already loaded by 'tikz' option
+\usetikzlibrary{mindmap,trees}
+\begin{document}
+\begin{tikzpicture}[mindmap,grow cyclic, every node/.style=concept, concept color=blue!100,text=white,
+  level 1/.append style={level distance=5cm, sibling angle=51},
+  level 2/.append style={level distance=3cm,sibling angle=45},]
+    \node{\Huge{PySAL}}
+	child [concept color=olive!70]{ node {\Huge {$\theta$}}
+		child { node { }}
+		child { node { }}
+		child { node { }}
+	}
+    	child [concept color=magenta!70] { node {\Huge{$\gamma$}}
+		child { node {}}
+		child { node {}}
+		child { node {}}
+	}
+	child [concept color=teal!70] { node {\Huge{$\tau$} }
+		child { node {}}
+		child { node {}}
+		child { node {}}
+	}
+	child [concept color=purple!70]{ node {\Huge{$\lambda$}}
+		child { node { }}
+		child { node {}}
+		child { node {}}
+	}
+	child [concept color=gray!70]{ node {\Huge{$\alpha$}}
+		child { node { }}
+		child { node {}}
+		child { node { }}
+	}
+	child [concept color=cyan!70]{ node {\Huge{$W$} }
+		child { node { }}
+		child { node { }}
+		child { node {}}
+	}
+	child [concept color=red!70]{ node {\Huge{$\rho$} }
+		child { node {}}
+		child { node {}}
+		child { node {}}
+	}
+    	;
+\end{tikzpicture}
+\end{document}
