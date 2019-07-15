@@ -1,45 +1,50 @@
 \documentclass[tikz,convert={outfile=\jobname.svg}]{standalone}
 %\usetikzlibrary{...}% tikz package already loaded by 'tikz' option
+\usepackage{fontspec}
+\setmonofont[Mapping=tex-text]{Iosevka knaaptime}
 \usetikzlibrary{mindmap,trees}
+
 \begin{document}
-\begin{tikzpicture}[mindmap,grow cyclic, every node/.style=concept, concept color=gray, text=white, font = \huge,
+\begin{tikzpicture}[mindmap,grow cyclic, every node/.style=concept, concept color=gray, text=white,
   level 1/.append style={level distance=5cm, sibling angle=51.4},
   level 2/.append style={level distance=3cm, sibling angle=45},]
-    \node{PySAL}
-	child [concept color=orange,  font = \large]{ node {Clustering}
-		child [font =\normalsize]{ node {ARISEL}}
-		child [font =\normalsize]{ node {AZP}}
-		child [font =\normalsize]{ node {max-p regions}}	
+  \fontfamily{Iosevka knaaptime}
+
+    \node{\fontsize{36}{40}\texttt{PySAL}}
+	child [concept color=orange]{ node {}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}	
 	}
-	child [concept color=red!80!black,  font = \large] { node {ESDA}
-		child [font =\normalsize]{ node {Smoothing}}
-		child [font =\normalsize]{ node { LISA}}
-		child [font =\normalsize]{ node {$I$, $G$, $C$}}
+	child [concept color=red!80!black] { node {}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node { }}
+		child [font =\normalsize]{ node {}}
 	}
-	child [concept color=blue!80!black,  font = \large]{ node {Spatial Dynamics}
-		child [font =\normalsize]{ node {Spatial $\tau$}}
-		child [font =\normalsize]{ node {Spatial $\theta$}}
-		child [font =\normalsize]{ node {Spatial Markov}}
+	child [concept color=blue!80!black]{ node {}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
 	}
-	child [concept color=green!50!black,  font = \large] { node {Spatial Econometrics}
-		child [font =\normalsize]{ node {Simulation}}
-		child [font =\normalsize]{ node {Diagnostics}}
-		child [font =\normalsize]{ node {Estimation \& Testing}}
+	child [concept color=green!50!black] { node {}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
 	}
-	child [concept color=orange!70!black,  font = \large]{ node {Weights}
-		child [font =\normalsize]{ node {MAT}}
-		child [font =\normalsize]{ node {GWT}}
-		child [font =\normalsize]{ node {GAL}}
+	child [concept color=orange!70!black]{ node {}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
 	}
-	child [concept color=purple!90!black,  font = \large]{ node {Contrib}
-		child [font =\normalsize]{ node {Spatial Interaction}}
-		child [font =\normalsize]{ node {Geo Viz}}
-		child [font =\normalsize]{ node {Geo Processing}}
+	child [concept color=purple!90!black]{ node {}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
 	}   
-	child [concept color=cyan!70!black,  font = \large]{ node {Network}
-		child [font =\normalsize]{ node {Point snapping}}
-		child [font =\normalsize]{ node {LISA}}
-		child [font =\normalsize]{ node {Network weights}}
+	child [concept color=cyan!70!black]{ node {}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
+		child [font =\normalsize]{ node {}}
 	}
         ;
 \end{tikzpicture}
