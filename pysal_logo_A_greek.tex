@@ -1,0 +1,63 @@
+% to run --> $ xelatex [filename].tex
+\documentclass[tikz,convert={outfile=\jobname.svg}]{standalone}
+%\usetikzlibrary{...}% tikz package already loaded by 'tikz' option
+\usetikzlibrary{mindmap,trees}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text,Scale=3}
+\setmainfont{M+ 1mn}
+
+\colorlet{cyan}[rgb]{cyan}
+\colorlet{magenta}[rgb]{magenta}
+
+\begin{document}
+\begin{tikzpicture}[mindmap,
+                    grow cyclic,
+                    every node/.style=concept,
+                    concept color=gray,
+                    text=white,
+                    level 1/.append style={level distance=5cm,%%%%%%%%%%%%%%%%% child nodes
+                                           font=\Huge,%%%%%%%%%%%%%%%%%%%%%%%%% huge font for level 1 child nodes
+                                           sibling angle=51},
+                    level 2/.append style={level distance=3cm,%%%%%%%%%%%%%%%%% grandchildchild nodes
+                                           sibling angle=45}
+                    ]
+    \node[concept color=gray]{\large\bfseries{PySAL}}%%%%%%%%%%%%%%%%%%%%%%%%%%% huge, bold font for root node
+	child [concept color=gray!5!orange]{ node {$\theta$}%%%%%%%%%%%%%%%%%%%% adjust here for child node color blends
+		child { node { }}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% three grandchildren for each child
+		child { node { }}
+		child { node { }}
+	}
+    child [concept color=black!1!red]{ node {$\gamma$}%%%%%%%%%%%%%%%%%% adjust here for child node color blends
+		child { node { }}
+		child { node { }}
+		child { node { }}
+	}
+	child [concept color=gray!5!blue]{ node {$\tau$}%%%%%%%%%%%%%%%%%%%%%%% adjust here for child node color blends
+		child { node { }}
+		child { node { }}
+		child { node { }}
+	}
+	child [concept color=black!50!green]{ node {$\lambda$}%%%%%%%%%%%%%%%%%%% adjust here for child node color blends
+		child { node { }}
+		child { node { }}
+		child { node { }}
+	}
+	child [concept color=gray!5!magenta]{ node {$\alpha$}%%%%%%%%%%%%%%%%%%%% adjust here for child node color blends
+		child { node { }}
+		child { node { }}
+		child { node { }}
+	}
+	child [concept color=black!35!red]{ node {$W$}%%%%%%%%%%%%%%%%%%%%%%%%%% adjust here for child node color blends
+		child { node { }}
+		child { node { }}
+		child { node { }}
+	}
+	child [concept color=black!10!cyan]{ node {$\rho$}%%%%%%%%%%%%%%%%%%%%%%%%% adjust here for child node color blends
+		child { node { }}
+		child { node { }}
+		child { node { }}
+	}
+    	;
+\end{tikzpicture}
+\end{document}
