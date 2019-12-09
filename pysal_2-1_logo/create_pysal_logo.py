@@ -1,5 +1,9 @@
 """ Create the PySAL 2.1.0 logo with TeX/TikZ, then create
     favicons at specified resolutions with ImageTricks.
+    The original logo design was based on Figure 1 from Rey and Anselin (2007).
+    
+    Rey, S. J. and Anselin, L. (2007). PySAL: A python library of
+        spatial analytical methods. The Review of Regional Studies, 37(1):5–27.
 
 Examples from the command line:
     (without child node text)
@@ -27,6 +31,7 @@ Requirements:
 
 Authors:
     Serge Rey,
+    Luc Anselin,
     James Gaboardi <jgaboardi@gmail.com>,
     Wei Kang,
     Eli Knaap,
