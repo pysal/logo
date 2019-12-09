@@ -26,6 +26,11 @@ Note 1:
 Requirements:
     Python 3.6+
     LuaTeX, Version 1.10.0 (TeX Live 2019)
+    M+ fonts
+        info -- https://mplus-fonts.osdn.jp/about-en.html
+        download -- https://osdn.net/projects/mplus-fonts/releases/<RELEASE>
+            The files created with the initial push for this file were run
+            release <62344>. The current release for download is <p14454>.
     ImageTricks (for favicon creation)
         https://www.belightsoft.com/products/imagetricks/
 
