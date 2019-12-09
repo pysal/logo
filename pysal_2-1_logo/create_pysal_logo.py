@@ -1,10 +1,10 @@
-""" Create the PySAL 2.0 logo with TeX/TikZ, then create
+""" Create the PySAL 2.1.0 logo with TeX/TikZ, then create
     favicons at specified resolutions with ImageTricks.
 
-Example without child node text:
+Examples from the command line:
+    (without child node text)
     $ python create_pysal_logo.py
-
-Example with child node text:
+    (with child node text)
     $ python create_pysal_logo.py True
 
 Note 1:
@@ -12,9 +12,9 @@ Note 1:
     caution as some colors don't blend well when combining schema as
     is done here. For example, instead of 'gray' for the root node
     color use 'rgb:black,1.25;white,1' (the default argument value for
-    `concept_color` in `create_logo()`). Also, not RBG colors
-    do not (at the time of the writing) blend well together, such
-    as cyan and magenta. See the following:
+    `concept_color` in `create_logo()`). Also, note that RBG colors
+    do not (at the time of the writing) blend well with CMY colors.
+    See the following:
     https://ipfs-sec.stackexchange.cloudflare-ipfs.com/tex/A/question/24434.html
     https://tex.stackexchange.com/questions/48662/tikz-or-xcolor-lighten-color
     https://tex.stackexchange.com/questions/308853/why-does-xcolor-lighten-a-color-when-mixed
@@ -55,8 +55,8 @@ _7_NODE_COLORS = [
     "black!40!red",
     "orange",
 ]
-_7_NODE_TEXT = [r"\theta", r"\gamma", r"\tau", r"\lambda", r"\alpha", r"W", r"\rho"]
-_7_NODE_TEXT = [r"$" + t + "$" for t in _7_NODE_TEXT]
+_7_NODE_TEXT = [r"theta", r"gamma", r"tau", r"lambda", r"alpha", r"W", r"rho"]
+_7_NODE_TEXT = [r"$\" + t + "$" for t in _7_NODE_TEXT]
 _7_NODE_NO_TEXT = [""] * len(_7_NODE_TEXT)
 
 
@@ -185,7 +185,7 @@ def create_logo(
     convert_tikz=r",convert={outfile=\jobname.png}",
     clean_up=["aux", "log"],
 ):
-    """Create the PySAL 2.0 logo with TeX/TikZ by creating and 
+    """Create the PySAL 2.1.0 logo with TeX/TikZ by initializing and 
     appending a raw text file before saving it out as a .tex file.
     Following the .tex file create, perform a command line call.
     
@@ -278,7 +278,7 @@ def create_logo(
 def create_favicon(
     fname, node_info=None, root_text="", resolutions=[32, 48, 64], clean_up=True
 ):
-    """Create the PySAL 2.0 logo favicon (.ico) files at desired resolutions.
+    """Create the PySAL 2.1.0 logo favicon (.ico) files at desired resolutions.
     
     Parameters
     ----------
