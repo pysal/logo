@@ -11,18 +11,6 @@ Examples from the command line:
     (with child node text)
     $ python create_pysal_logo.py True
 
-Note 1:
-    Changing child colors can be done in `_7_NODE_COLORS`, but use
-    caution as some colors don't blend well when combining schema as
-    is done here. For example, instead of 'gray' for the root node
-    color use 'rgb:black,1.25;white,1' (the default argument value for
-    `concept_color` in `create_logo()`). Also, note that RBG colors
-    do not (at the time of the writing) blend well with CMY colors.
-    See the following:
-    https://ipfs-sec.stackexchange.cloudflare-ipfs.com/tex/A/question/24434.html
-    https://tex.stackexchange.com/questions/48662/tikz-or-xcolor-lighten-color
-    https://tex.stackexchange.com/questions/308853/why-does-xcolor-lighten-a-color-when-mixed
-
 Requirements:
     Python 3.6+
     LuaTeX, Version 1.10.0 (TeX Live 2019)
@@ -33,6 +21,23 @@ Requirements:
             on release <62344>. The current release for download is <p14454>.
     ImageTricks (for favicon creation)
         https://www.belightsoft.com/products/imagetricks/
+
+Note 1:
+    The default font for generating the PySAL logo is set to `M+ 1mn`.
+    Once the M+ fonts are downloaded (see Requirements above) the 
+    `M+ 1mn` font must be installed.
+
+Note 2:
+    Changing child colors can be done in `_7_NODE_COLORS`, but use
+    caution as some colors don't blend well when combining schema as
+    is done here. For example, instead of 'gray' for the root node
+    color use 'rgb:black,1.25;white,1' (the default argument value for
+    `concept_color` in `create_logo()`). Also, note that RBG colors
+    do not (at the time of the writing) blend well with CMY colors.
+    See the following:
+    https://ipfs-sec.stackexchange.cloudflare-ipfs.com/tex/A/question/24434.html
+    https://tex.stackexchange.com/questions/48662/tikz-or-xcolor-lighten-color
+    https://tex.stackexchange.com/questions/308853/why-does-xcolor-lighten-a-color-when-mixed
 
 Authors:
     Serge Rey,
