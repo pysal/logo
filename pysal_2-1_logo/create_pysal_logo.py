@@ -65,8 +65,15 @@ _7_NODE_COLORS = [
     "black!40!red",
     "orange",
 ]
-_7_NODE_TEXT = [r"theta", r"gamma", r"tau", r"lambda", r"alpha", r"W", r"rho"]
-_7_NODE_TEXT = [r"$\" + t + "$" for t in _7_NODE_TEXT]
+_7_NODE_TEXT = [
+    r"$\theta$",
+    r"$\gamma$",
+    r"$\tau$",
+    r"$\lambda$",
+    r"$\alpha$",
+    r"$W$",
+    r"$\rho$",
+]
 _7_NODE_NO_TEXT = [""] * len(_7_NODE_TEXT)
 
 
