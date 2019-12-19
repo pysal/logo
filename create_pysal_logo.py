@@ -116,7 +116,7 @@ def set_header_and_footer(font, convert_tikz, cmy, colors):
     if any(cmy.values()):
         for color in colors:
             header += r"""
-    \colorlet{%s}[rgb]{%s}""" % (color, color)
+            \colorlet{%s}[rgb]{%s}""" % (color, color)
     header += r"""
     \begin{document}"""
     footer = r"""
