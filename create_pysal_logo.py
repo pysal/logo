@@ -66,7 +66,7 @@ _7_NODE_COLORS = [
     "black!5!red",
     "blue",
     "black!50!green",
-    "brown",
+    "black!45!cyan",
     "black!40!red",
     "orange",
 ]
@@ -205,7 +205,7 @@ def create_logo(
     font="M+ 1mn",
     engine="lualatex",
     convert_tikz=r",convert={outfile=\jobname.png}",
-    clean_up=["aux", "log"],
+    clean_up=["aux", "log", "fls"],
 ):
     """Create the PySAL 2.1.0 logo with TeX/TikZ by initializing and 
     appending a raw text file before saving it out as a .tex file.
