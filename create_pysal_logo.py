@@ -94,7 +94,7 @@ def check_for_cmy(node_info):
     color_elements = list(
         itertools.chain.from_iterable([c.split("!") for c in node_colors])
     )
-    colors = [c for c in color_elements if c.isalpha()]
+    colors = set([c for c in color_elements if c.isalpha()])
     # hunt for any CMY colors
     for c in colors:
         if c in CMY:
@@ -116,7 +116,7 @@ def set_header_and_footer(font, convert_tikz, cmy, colors):
     if any(cmy.values()):
         for color in colors:
             header += r"""
-            \colorlet{%s}[rgb]{%s}""" % (color, color)
+    \colorlet{%s}[rgb]{%s}""" % (color, color)
     header += r"""
     \begin{document}"""
     footer = r"""
