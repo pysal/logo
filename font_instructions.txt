@@ -1,9 +1,0 @@
-Font download/installation
-==========================
-
-1. M+ fonts: https://mplus-fonts.osdn.jp/about-en.html
-2. Download font at: https://osdn.net/projects/mplus-fonts/releases/62344
-3. Install font in Abobe Acrobat Pro: https://www.adobe.com/products/type/install-instructions.html
-4. Open the .pdf file in Adobe Acrobat Pro (for example, solid_matte.pdf).
-5. Click "Edit PDF" and all text within document can be edited.
-6. Export as .jpg/.png/etc. once satisfied with font.

@@ -12,7 +12,7 @@ Examples from the command line:
     $ python create_pysal_logo.py True
 
 Requirements:
-    Python 3.6+
+    Python 3.6+ (numpy)
     LuaTeX, Version 1.10.0 (TeX Live 2019)
     M+ fonts
         info -- https://mplus-fonts.osdn.jp/about-en.html
@@ -52,6 +52,8 @@ File creation date:
 """
 
 from ast import literal_eval
+import itertools
+import numpy
 import subprocess
 import sys
 import time
@@ -82,18 +84,41 @@ _7_NODE_TEXT = [
 _7_NODE_NO_TEXT = [""] * len(_7_NODE_TEXT)
 
 
-def set_header_and_footer(font, convert_tikz):
+def check_for_cmy(node_info):
+    """check for Cyan-Magenta-Yellow color schema"""
+    # isolate selected colors/shades
+    node_colors = node_info[:,0]
+    # initialize color schema as RGB
+    CMY = {"cyan":False, "magenta":False, "yellow":False}
+    # filter out all colors in logo
+    color_elements = list(
+        itertools.chain.from_iterable([c.split("!") for c in node_colors])
+    )
+    colors = [c for c in color_elements if c.isalpha()]
+    # hunt for any CMY colors
+    for c in colors:
+        if c in CMY:
+            CMY[c] = True
+    return CMY, colors
+
+
+def set_header_and_footer(font, convert_tikz, cmy, colors):
     header = r"""
     \documentclass[tikz%s]{standalone}
     \usetikzlibrary{mindmap,trees}
     \usepackage{fontspec}
     \defaultfontfeatures{Ligatures=TeX,Scale=3}
-    \setmainfont{%s}
-    \begin{document}
-    """ % (
+    \setmainfont{%s}""" % (
         convert_tikz,
         font,
     )
+    # adjust/declare colors as necessary
+    if any(cmy.values()):
+        for color in colors:
+            header += r"""
+            \colorlet{%s}[rgb]{%s}""" % (color, color)
+    header += r"""
+    \begin{document}"""
     footer = r"""
     \end{document}"""
     return header, footer
@@ -245,9 +270,14 @@ def create_logo(
         list of the intermediary .text file is not needed following the
         create of the logo.
     """
-
+    
+    # check for Cyan-Magenta-Yellow color schema
+    cmy, colors = check_for_cmy(node_info)
+    
     # create the .tex header and footer
-    tex_header, tex_footer = set_header_and_footer(font, convert_tikz)
+    tex_header, tex_footer = set_header_and_footer(
+        font, convert_tikz, cmy, colors
+    )
 
     # set number of child nodes based on number of colors
     child_nodes = len(node_info)
@@ -363,9 +393,9 @@ if __name__ == "__main__":
         node_text = _7_NODE_TEXT
     else:
         node_text = _7_NODE_NO_TEXT
-
+    
     # pack child node information
-    node_info = list(zip(_7_NODE_COLORS, node_text))
+    node_info = numpy.array(list(zip(_7_NODE_COLORS, node_text)))
 
     # create logo files
     create_logo(OUT_FILE_BASE, node_info)
