@@ -1,4 +1,6 @@
-""" Create the PySAL 2.1.0 logo with TeX/TikZ, then create
+"""
+Description:
+    Create the PySAL logo with TeX/TikZ, then create
     favicons at specified resolutions with ImageTricks.
     The original logo design was based on Figure 1 from Rey and Anselin (2007)
     and can be created by simply running `python create_pysal_logo.py` from
@@ -55,8 +57,7 @@ import numpy
 import subprocess
 
 
-# set this for PySAL meta package release
-__version__ = "2.1.0"
+__version__ = "0.0.1"
 
 
 # Predefined file name
@@ -105,7 +106,13 @@ def check_for_cmy(node_info):
     # isolate selected colors/shades
     node_colors = node_info[:, 0]
     # initialize color schema as RGB
-    CMY = {"cyan": False, "magenta": False, "yellow": False}
+    CMY = {
+        "cyan": False,
+        "magenta": False,
+        "yellow": False,
+        "teal": False,
+        "olive": False
+    }
     # filter out all colors in logo
     color_elements = list(
         itertools.chain.from_iterable([c.split("!") for c in node_colors])
@@ -296,7 +303,7 @@ def create_logo(
         in addition to the original .pdf. This parameter may also be set
         to .jpg, .svg, etc.
     
-    clean_up : list (Optional - Default is ["aux", "log"])
+    clean_up : list (Optional - Default is ["aux", "log", "pdf"])
         Remove these types of files after processing. Add .tex to the
         list of the intermediary .text file is not needed following the
         create of the logo.
@@ -331,7 +338,7 @@ def create_logo(
     >>> custom_theme = numpy.array(list(zip(VARIATION_COLORS, text)))
     >>> create_logo(OUT_FILE, custom_theme)
     
-    Create a gradient blend of two colors
+    Create a gradient blend of two colors.
     
     >>> from create_pysal_logo import ORIG_TEXT
     >>> alphas = numpy.linspace(0, 100, len(ORIG_TEXT))
@@ -398,7 +405,7 @@ def create_logo(
 def create_favicon(
     fname, node_info=None, root_text="", resolutions=[32, 48, 64], clean_up=True
 ):
-    """Create the PySAL 2.1.0 logo favicon (.ico) files at desired resolutions.
+    """Create the PySAL logo favicon (.ico) files at desired resolutions.
     
     Parameters
     ----------
@@ -413,7 +420,7 @@ def create_favicon(
         Resolutions for the .ico files. Can include `[16, 32, 48, 64]`.
     
     clean_up : bool (Default is True)
-        Remove all files needed to create the .ico files
+        Remove all files needed to create the .ico files.
     
     Examples
     --------
