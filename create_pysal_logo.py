@@ -3,8 +3,8 @@
     The original logo design was based on Figure 1 from Rey and Anselin (2007)
     and can be created by simply running `python create_pysal_logo.py` from
     the command line (assuming all requirements are installed). More detailed 
-    are given within `create_pysal_logo()` and `create_favicon()`. Further 
-    examples can be found in `logo_palette.ipynb`.
+    examples are given within `create_pysal_logo()` and `create_favicon()`.
+    Further examples can be found in `logo_palette.ipynb`.
     
     Rey, S. J. and Anselin, L. (2007). PySAL: A python library of
         spatial analytical methods. The Review of Regional Studies, 37(1):5–27.
