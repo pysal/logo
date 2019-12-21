@@ -1,3 +1,7 @@
+*.ipynb_checkpoints
+__pycache__
+
+
 # Created by .ignore support plugin (hsz.mobi)
 ### TeX template
 ## Core latex/pdflatex auxiliary files:
