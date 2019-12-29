@@ -417,7 +417,7 @@ def create_favicon(
     root_text : see `create_logo()`
     
     resolutions : list (Default is [32, 48, 64])
-        Resolutions for the .ico files. Can include `[16, 32, 48, 64]`.
+        Resolutions for the .ico files. Can include `[16, 28, 32, 48, 64]`.
     
     clean_up : bool (Default is True)
         Remove all files needed to create the .ico files.
@@ -480,6 +480,7 @@ def create_favicon(
 if __name__ == "__main__":
 
     # Create the standard PySAL logo based on Rey and Anselin (2007).
-    # create logo files and favicons
+    # create full logo
     create_logo(OUT_FILE, ORIGINAL_THEME)
+     # create logo favicons
     create_favicon(OUT_FILE, ORIGINAL_THEME)
