@@ -1,18 +1,39 @@
-""" Create the PySAL 2.1.0 logo with TeX/TikZ, then create
+"""
+Description:
+    Create the PySAL logo with TeX/TikZ, then create
     favicons at specified resolutions with ImageTricks.
-    The original logo design was based on Figure 1 from Rey and Anselin (2007).
+    The original logo design was based on Figure 1 from Rey and Anselin (2007)
+    and can be created by simply running `python create_pysal_logo.py` from
+    the command line (assuming all requirements are installed). More detailed 
+    examples are given within `create_pysal_logo()` and `create_favicon()`.
+    Further examples can be found in `logo_palette.ipynb`.
     
     Rey, S. J. and Anselin, L. (2007). PySAL: A python library of
         spatial analytical methods. The Review of Regional Studies, 37(1):5–27.
 
-Examples from the command line:
-    (without child node text)
-    $ python create_pysal_logo.py
-    (with child node text)
-    $ python create_pysal_logo.py True
+How to use:
+    1. From the command line:
+        
+        $ python create_pysal_logo.py
+        
+        The call above will produce a logo & favicons with colors 
+        reminiscent of the original logo in Rey and Anselin (2007)
+        and without text the child nodes.
+        
+        $ python create_pysal_logo.py red,blue,red,blue,red,blue,red
+        
+        The call above will produce a logo & favicons with alternating
+        red and blue child nodes, without text inside the child nodes.
+        
+        $ python create_pysal_logo.py red,red,red,red,red,red,red 1,1,1,1,1,1,1
+        
+        The call above will produce a logo & favicons with all
+        red child nodes, and a "1" inside each of the child nodes.
+    
+    2. See logo_palette.ipynb for more examples.
 
 Requirements:
-    Python 3.6+
+    Python 3.6+ (numpy)
     LuaTeX, Version 1.10.0 (TeX Live 2019)
     M+ fonts
         info -- https://mplus-fonts.osdn.jp/about-en.html
@@ -51,26 +72,48 @@ File creation date:
     2019-12
 """
 
+
 from ast import literal_eval
+import itertools
+import numpy
 import subprocess
 import sys
-import time
 
-# set this for PySAL meta package release
-__version__ = "2.1.0"
 
-# Predefined file name, node colors, and node text (if desired)
-OUT_FILE_BASE = "pysal_logo"
-_7_NODE_COLORS = [
+__version__ = "0.0.1"
+
+
+# Predefined file name
+OUT_FILE = "pysal_logo"
+
+# Predefined themes: node colors, and node text (if desired)
+# 1. Mimic the original theme colors from Rey and Anselin (2007).
+ORIG_COLORS = [
     "violet",
-    "black!5!red",
+    "black!10!red",
     "blue",
     "black!50!green",
-    "black!45!cyan",
+    "brown",
     "black!40!red",
     "orange",
 ]
-_7_NODE_TEXT = [
+ORIG_TEXT = [""] * len(ORIG_COLORS)
+ORIGINAL_THEME = numpy.array(list(zip(ORIG_COLORS, ORIG_TEXT)))
+
+# 2. Variation on (1.)
+VARIATION_COLORS = [
+    "cyan!16.666666666666668!magenta",
+    "black!10!red",
+    "blue",
+    "black!50!green",
+    "cyan!66.66666666666667!magenta",
+    "black!40!red",
+    "orange",
+]
+VARIATION_THEME = numpy.array(list(zip(VARIATION_COLORS, ORIG_TEXT)))
+
+# Greek lettering, including the PySAL W
+GREEK = [
     r"$\theta$",
     r"$\gamma$",
     r"$\tau$",
@@ -79,21 +122,52 @@ _7_NODE_TEXT = [
     r"$W$",
     r"$\rho$",
 ]
-_7_NODE_NO_TEXT = [""] * len(_7_NODE_TEXT)
 
 
-def set_header_and_footer(font, convert_tikz):
+def check_for_cmy(node_info):
+    """check for Cyan-Magenta-Yellow color schema"""
+    # isolate selected colors/shades
+    node_colors = node_info[:, 0]
+    # initialize color schema as RGB
+    CMY = {
+        "cyan": False,
+        "magenta": False,
+        "yellow": False,
+        "teal": False,
+        "olive": False,
+    }
+    # filter out all colors in logo
+    color_elements = list(
+        itertools.chain.from_iterable([c.split("!") for c in node_colors])
+    )
+    colors = set([c for c in color_elements if c.isalpha()])
+    # hunt for any CMY colors
+    for c in colors:
+        if c in CMY:
+            CMY[c] = True
+    return CMY, colors
+
+
+def set_header_and_footer(font, convert_tikz, cmy, colors):
     header = r"""
     \documentclass[tikz%s]{standalone}
     \usetikzlibrary{mindmap,trees}
     \usepackage{fontspec}
     \defaultfontfeatures{Ligatures=TeX,Scale=3}
-    \setmainfont{%s}
-    \begin{document}
-    """ % (
+    \setmainfont{%s}""" % (
         convert_tikz,
         font,
     )
+    # adjust/declare colors as necessary
+    if any(cmy.values()):
+        for color in colors:
+            header += r"""
+            \colorlet{%s}[rgb]{%s}""" % (
+                color,
+                color,
+            )
+    header += r"""
+    \begin{document}"""
     footer = r"""
     \end{document}"""
     return header, footer
@@ -205,49 +279,103 @@ def create_logo(
     font="M+ 1mn",
     engine="lualatex",
     convert_tikz=r",convert={outfile=\jobname.png}",
-    clean_up=["aux", "log", "fls"],
+    clean_up=["aux", "log", "pdf"],
 ):
-    """Create the PySAL 2.1.0 logo with TeX/TikZ by initializing and 
+    """Create the PySAL logo with TeX/TikZ by initializing and 
     appending a raw text file before saving it out as a .tex file.
     Following the .tex file create, perform a command line call.
     
     Parameters
     ----------
+    
     fname : str
         Logo file name.
+    
     node_info : iterable (Optional - Default is None)
         List two zipped lists; one containing node color information
         and the other containing node text information. More information
         about node colors and blending can be found at the websites listed
         at the top of the file in the Note1 section.
+    
     concept_color : str (Optional - Default is r"{rgb:black,1.25;white,1}")
         Root node (and transitions into children nodes) color.
+    
     root_text : str (Optional - Default is "PySAL")
         Text within the root node.
+    
     text_color : str (Optional - Default is "white")
         Text color within the root node.
+    
     root_font_style : str (Optional - Default is "bfseries")
         Text font style within the root node.
+    
     root_font_size : str (Optional - Default is "large")
         Text font size within the root node.
+    
     grandchild_nodes : int (Optional - Default is 3)
         Number of grandchildren nodes for each child node.
+    
     font : str (Optional - Default is "M+ 1mn")
         Font type. The font is
+    
     engine : str (Optional - Default is "lualatex")
         TeX engine to compile to document.
+    
     convert_tikz : str (Optional - Default is r",convert={outfile=\jobname.png})
         Automatically convert the resultant .pdf to a .png,
         in addition to the original .pdf. This parameter may also be set
         to .jpg, .svg, etc.
-    clean_up : list (Optional - Default is ["aux", "log"])
+    
+    clean_up : list (Optional - Default is ["aux", "log", "pdf"])
         Remove these types of files after processing. Add .tex to the
         list of the intermediary .text file is not needed following the
         create of the logo.
+    
+    Examples
+    --------
+    
+    Create the standard PySAL logo based on the original design found in
+    Rey and Anselin (2007).
+    
+    >>> from create_pysal_logo import create_logo, OUT_FILE, ORIGINAL_THEME
+    >>> create_logo(OUT_FILE, ORIGINAL_THEME)
+    
+    Create the standard PySAL logo based on the original design found in
+    Rey and Anselin (2007), but with Greek letter in the child nodes.
+    
+    >>> from create_pysal_logo import ORIG_COLORS, GREEK
+    >>> greek_theme = numpy.array(list(zip(ORIG_COLORS, GREEK)))
+    >>> create_logo(OUT_FILE, greek_theme)
+    
+    Create the PySAL logo with a customized color palette and no text.
+    
+    >>> from create_pysal_logo import VARIATION_THEME
+    >>> create_logo(OUT_FILE, VARIATION_THEME)
+    
+    Create the PySAL logo with a customized color palette and customized text.
+    
+    >>> from create_pysal_logo import VARIATION_COLORS
+    >>> text = [
+    ...     r"$\bullet$", r"$S$", r"$A$", r"$L$", r"$\bullet$", r"$y$", r"$P$"
+    ... ]
+    >>> custom_theme = numpy.array(list(zip(VARIATION_COLORS, text)))
+    >>> create_logo(OUT_FILE, custom_theme)
+    
+    Create a gradient blend of two colors.
+    
+    >>> from create_pysal_logo import ORIG_TEXT
+    >>> alphas = numpy.linspace(0, 100, len(ORIG_TEXT))
+    >>> gradient = ["blue!%s!cyan" % alpha for alpha in alphas]
+    >>> custom_theme = numpy.array(list(zip(gradient, ORIG_TEXT)))
+    >>> create_logo(OUT_FILE, custom_theme)
+    
     """
 
+    # check for Cyan-Magenta-Yellow color schema
+    cmy, colors = check_for_cmy(node_info)
+
     # create the .tex header and footer
-    tex_header, tex_footer = set_header_and_footer(font, convert_tikz)
+    tex_header, tex_footer = set_header_and_footer(font, convert_tikz, cmy, colors)
 
     # set number of child nodes based on number of colors
     child_nodes = len(node_info)
@@ -300,17 +428,37 @@ def create_logo(
 def create_favicon(
     fname, node_info=None, root_text="", resolutions=[32, 48, 64], clean_up=True
 ):
-    """Create the PySAL 2.1.0 logo favicon (.ico) files at desired resolutions.
+    """Create the PySAL logo favicon (.ico) files at desired resolutions.
     
     Parameters
     ----------
-    fname : see create_logo()
-    node_info : see create_logo()
-    root_text : see create_logo()
+    
+    fname : see `create_logo()`
+    
+    node_info : see `create_logo()`
+    
+    root_text : see `create_logo()`
+    
     resolutions : list (Default is [32, 48, 64])
-        Resolutions for the .ico files. Can include `[16, 32, 48, 64]`.
+        Resolutions for the .ico files. Can include `[16, 28, 32, 48, 64]`.
+    
     clean_up : bool (Default is True)
-        Remove all files needed to create the .ico files
+        Remove all files needed to create the .ico files.
+    
+    Examples
+    --------
+    
+    Create the standard PySAL favicons based on the original design found in
+    Rey and Anselin (2007) at the three default resolutions.
+    
+    >>> from create_pysal_logo import create_favicon, OUT_FILE, ORIGINAL_THEME
+    >>> create_favicon(OUT_FILE, ORIGINAL_THEME)
+    
+    Create the standard PySAL favicons based on the original design found in
+    Rey and Anselin (2007) at a single resolution.
+    
+    >>> create_favicon(OUT_FILE, ORIGINAL_THEME, resolutions=[64])
+    
     """
 
     # set .ico file names
@@ -352,23 +500,48 @@ def create_favicon(
         subprocess.Popen(find).wait()
 
 
+def make_theme(args):
+    """Parse theme for logo from command line arguments."""
+
+    def _colors():
+        """Colors parse and check."""
+        colors = args[1].split(",")
+        ncolors = len(colors)
+        if ncolors != 7:
+            raise RuntimeError(err_msg % ("colors", ncolors))
+        return colors
+
+    def _text():
+        """Text parse and check."""
+        entries = args[2].split(",")
+        nentries = len(entries)
+        if nentries != 7:
+            raise RuntimeError(err_msg % ("text entries", nentries))
+        return entries
+
+    err_msg = "There must be 7 %s in the logo, %s were passed in."
+
+    if len(args) == 2:
+        theme = numpy.array(list(zip(_colors(), ORIG_TEXT)))
+    elif len(args) == 3:
+        theme = numpy.array(list(zip(_colors(), _text())))
+    else:
+        raise RuntimeError("Too many arguments passed in.")
+
+    return theme
+
+
 if __name__ == "__main__":
 
-    # set node test information
-    try:
-        with_node_text = literal_eval(sys.argv[1])
-    except IndexError:
-        with_node_text = False
-    if with_node_text:
-        node_text = _7_NODE_TEXT
+    # create theme based on command line args or built in globals
+    cmd_args = sys.argv
+    if len(cmd_args) > 1:
+        theme = make_theme(cmd_args)
     else:
-        node_text = _7_NODE_NO_TEXT
+        theme = ORIGINAL_THEME
 
-    # pack child node information
-    node_info = list(zip(_7_NODE_COLORS, node_text))
-
-    # create logo files
-    create_logo(OUT_FILE_BASE, node_info)
-
-    # create favicon files
-    create_favicon(OUT_FILE_BASE, node_info)
+    # Create the standard PySAL logo based on Rey and Anselin (2007).
+    # create full logo
+    create_logo(OUT_FILE, theme)
+    # create logo favicons
+    create_favicon(OUT_FILE, theme)
