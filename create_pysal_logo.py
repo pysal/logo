@@ -11,6 +11,27 @@ Description:
     Rey, S. J. and Anselin, L. (2007). PySAL: A python library of
         spatial analytical methods. The Review of Regional Studies, 37(1):5–27.
 
+How to use:
+    1. From the command line:
+        
+        $ python create_pysal_logo.py
+        
+        The call above will produce a logo & favicons with colors 
+        reminiscent of the original logo in Rey and Anselin (2007)
+        and without text the child nodes.
+        
+        $ python create_pysal_logo.py red,blue,red,blue,red,blue,red
+        
+        The call above will produce a logo & favicons with alternating
+        red and blue child nodes, without text inside the child nodes.
+        
+        $ python create_pysal_logo.py red,red,red,red,red,red,red 1,1,1,1,1,1,1
+        
+        The call above will produce a logo & favicons with all
+        red child nodes, and a "1" inside each of the child nodes.
+    
+    2. See logo_palette.ipynb for more examples.
+
 Requirements:
     Python 3.6+ (numpy)
     LuaTeX, Version 1.10.0 (TeX Live 2019)
@@ -52,9 +73,11 @@ File creation date:
 """
 
 
+from ast import literal_eval
 import itertools
 import numpy
 import subprocess
+import sys
 
 
 __version__ = "0.0.1"
@@ -111,7 +134,7 @@ def check_for_cmy(node_info):
         "magenta": False,
         "yellow": False,
         "teal": False,
-        "olive": False
+        "olive": False,
     }
     # filter out all colors in logo
     color_elements = list(
@@ -477,10 +500,48 @@ def create_favicon(
         subprocess.Popen(find).wait()
 
 
+def make_theme(args):
+    """Parse theme for logo from command line arguments."""
+
+    def _colors():
+        """Colors parse and check."""
+        colors = args[1].split(",")
+        ncolors = len(colors)
+        if ncolors != 7:
+            raise RuntimeError(err_msg % ("colors", ncolors))
+        return colors
+
+    def _text():
+        """Text parse and check."""
+        entries = args[2].split(",")
+        nentries = len(entries)
+        if nentries != 7:
+            raise RuntimeError(err_msg % ("text entries", nentries))
+        return entries
+
+    err_msg = "There must be 7 %s in the logo, %s were passed in."
+
+    if len(args) == 2:
+        theme = numpy.array(list(zip(_colors(), ORIG_TEXT)))
+    elif len(args) == 3:
+        theme = numpy.array(list(zip(_colors(), _text())))
+    else:
+        raise RuntimeError("Too many arguments passed in.")
+
+    return theme
+
+
 if __name__ == "__main__":
+
+    # create theme based on command line args or built in globals
+    cmd_args = sys.argv
+    if len(cmd_args) > 1:
+        theme = make_theme(cmd_args)
+    else:
+        theme = ORIGINAL_THEME
 
     # Create the standard PySAL logo based on Rey and Anselin (2007).
     # create full logo
-    create_logo(OUT_FILE, ORIGINAL_THEME)
-     # create logo favicons
-    create_favicon(OUT_FILE, ORIGINAL_THEME)
+    create_logo(OUT_FILE, theme)
+    # create logo favicons
+    create_favicon(OUT_FILE, theme)
