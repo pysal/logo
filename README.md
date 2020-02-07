@@ -64,10 +64,10 @@
   color use 'rgb:black,1.25;white,1' (the default argument value for
   `concept_color` in `create_logo()`). Also, note that RBG colors
   do not (at the time of the writing) blend well with CMY colors.
-  * See the following:
-   * https://ipfs-sec.stackexchange.cloudflare-ipfs.com/tex/A/question/24434.html
-   * https://tex.stackexchange.com/questions/48662/tikz-or-xcolor-lighten-color
-   * https://tex.stackexchange.com/questions/308853/why-does-xcolor-lighten-a-color-when-mixed
+  * See the following
+    * https://ipfs-sec.stackexchange.cloudflare-ipfs.com/tex/A/question/24434.html
+    * https://tex.stackexchange.com/questions/48662/tikz-or-xcolor-lighten-color
+    * https://tex.stackexchange.com/questions/308853/why-does-xcolor-lighten-a-color-when-mixed
 
 ### Authors
   * Serge Rey,
