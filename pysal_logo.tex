@@ -1,11 +1,13 @@
 
     \documentclass[tikz,convert={outfile=\jobname.png}]{standalone}
-    \usetikzlibrary{mindmap,trees}
+    \usetikzlibrary{mindmap,trees,backgrounds}
     \usepackage{fontspec}
     \defaultfontfeatures{Ligatures=TeX,Scale=3}
     \setmainfont{M+ 1mn}
     \begin{document}
     \begin{tikzpicture}[
+        background rectangle/.style={fill=white},
+        show background rectangle,
         mindmap,
         grow cyclic,
         every node/.style=concept,
