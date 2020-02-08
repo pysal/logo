@@ -17,18 +17,25 @@ How to use:
         $ python create_pysal_logo.py
         
         The call above will produce a logo & favicons with colors 
-        reminiscent of the original logo in Rey and Anselin (2007)
-        and without text the child nodes.
+        reminiscent of the original logo in Rey and Anselin (2007),
+        without text the child nodes, and with a white background.
         
-        $ python create_pysal_logo.py red,blue,red,blue,red,blue,red
+        $ python create_pysal_logo.py orig black
+        
+        The call above will produce the same as the previous, but
+        with a black background.
+        
+        $ python create_pysal_logo.py white red,blue,red,blue,red,blue,red
         
         The call above will produce a logo & favicons with alternating
-        red and blue child nodes, without text inside the child nodes.
+        red and blue child nodes, without text inside the child nodes,
+        and with a white background.
         
-        $ python create_pysal_logo.py red,red,red,red,red,red,red 1,1,1,1,1,1,1
+        $ python create_pysal_logo.py red,red,red,red,red,red,red cyan 1,1,1,1,1,1,1
         
         The call above will produce a logo & favicons with all
-        red child nodes, and a "1" inside each of the child nodes.
+        red child nodes, a "1" inside each of the child nodes,
+        and a cyan background.
     
     2. See logo_palette.ipynb for more examples.
 
@@ -65,8 +72,7 @@ Authors:
     Luc Anselin,
     James Gaboardi <jgaboardi@gmail.com>,
     Wei Kang,
-    Eli Knaap,
-    others?
+    Eli Knaap
 
 File creation date:
     2019-12
@@ -123,6 +129,8 @@ GREEK = [
     r"$\rho$",
 ]
 
+WHITE_BACKGROUND = "white"
+
 
 def check_for_cmy(node_info):
     """check for Cyan-Magenta-Yellow color schema"""
@@ -151,7 +159,7 @@ def check_for_cmy(node_info):
 def set_header_and_footer(font, convert_tikz, cmy, colors):
     header = r"""
     \documentclass[tikz%s]{standalone}
-    \usetikzlibrary{mindmap,trees}
+    \usetikzlibrary{mindmap,trees,backgrounds}
     \usepackage{fontspec}
     \defaultfontfeatures{Ligatures=TeX,Scale=3}
     \setmainfont{%s}""" % (
@@ -183,6 +191,7 @@ def level_distances_and_sibling_angles(child_nodes, grandchild_nodes):
 
 
 def initialize_tikz(
+    background_color,
     concept_color,
     text_color,
     level_distance_1,
@@ -202,6 +211,8 @@ def initialize_tikz(
     # initialize tikz picture
     main_content = r"""
     \begin{tikzpicture}[
+        background rectangle/.style={fill=%s},
+        show background rectangle,
         mindmap,
         grow cyclic,
         every node/.style=concept,
@@ -218,6 +229,7 @@ def initialize_tikz(
         }
     ]
     """ % (
+        background_color,
         concept_color,
         text_color,
         *args_l1,
@@ -270,6 +282,7 @@ def create_root(concept_color, root_text, root_font_style, root_font_size):
 def create_logo(
     fname,
     node_info=None,
+    background_color=None,
     concept_color=r"{rgb:black,1.25;white,1}",
     root_text="PySAL",
     text_color="white",
@@ -296,6 +309,9 @@ def create_logo(
         and the other containing node text information. More information
         about node colors and blending can be found at the websites listed
         at the top of the file in the Note1 section.
+    
+    background_color : str (Optional - Default is "white")
+        Logo background color.
     
     concept_color : str (Optional - Default is r"{rgb:black,1.25;white,1}")
         Root node (and transitions into children nodes) color.
@@ -387,7 +403,7 @@ def create_logo(
 
     # create the tikz preamble
     tex_content = initialize_tikz(
-        concept_color, text_color, *leveldistance_siblingangle
+        background_color, concept_color, text_color, *leveldistance_siblingangle
     )
 
     # create the root node for the concept mindmap
@@ -426,7 +442,12 @@ def create_logo(
 
 
 def create_favicon(
-    fname, node_info=None, root_text="", resolutions=[32, 48, 64], clean_up=True
+    fname,
+    node_info=None,
+    background_color=None,
+    root_text="",
+    resolutions=[32, 48, 64],
+    clean_up=True
 ):
     """Create the PySAL logo favicon (.ico) files at desired resolutions.
     
@@ -436,6 +457,8 @@ def create_favicon(
     fname : see `create_logo()`
     
     node_info : see `create_logo()`
+    
+    background_color : see `create_logo()`
     
     root_text : see `create_logo()`
     
@@ -466,7 +489,12 @@ def create_favicon(
     fname = "%s_%s" % (fname, favicon)
 
     # create a logo with no root text
-    create_logo(fname, node_info=node_info, root_text=root_text)
+    create_logo(
+        fname,
+        node_info=node_info,
+        background_color=background_color,
+        root_text=root_text
+    )
 
     # create favicons
     for resolution in resolutions:
@@ -505,6 +533,8 @@ def make_theme(args):
 
     def _colors():
         """Colors parse and check."""
+        if args[1] == "orig":
+            return ORIG_COLORS
         colors = args[1].split(",")
         ncolors = len(colors)
         if ncolors != 7:
@@ -513,7 +543,7 @@ def make_theme(args):
 
     def _text():
         """Text parse and check."""
-        entries = args[2].split(",")
+        entries = args[3].split(",")
         nentries = len(entries)
         if nentries != 7:
             raise RuntimeError(err_msg % ("text entries", nentries))
@@ -522,13 +552,15 @@ def make_theme(args):
     err_msg = "There must be 7 %s in the logo, %s were passed in."
 
     if len(args) == 2:
-        theme = numpy.array(list(zip(_colors(), ORIG_TEXT)))
+        theme, bg = numpy.array(list(zip(_colors(), ORIG_TEXT))), WHITE_BACKGROUND
     elif len(args) == 3:
-        theme = numpy.array(list(zip(_colors(), _text())))
+        theme, bg = numpy.array(list(zip(_colors(), ORIG_TEXT))), args[2]
+    elif len(args) == 4:
+        theme, bg = numpy.array(list(zip(_colors(), _text()))), args[2]
     else:
         raise RuntimeError("Too many arguments passed in.")
 
-    return theme
+    return theme, bg
 
 
 if __name__ == "__main__":
@@ -536,12 +568,12 @@ if __name__ == "__main__":
     # create theme based on command line args or built in globals
     cmd_args = sys.argv
     if len(cmd_args) > 1:
-        theme = make_theme(cmd_args)
+        theme, bg = make_theme(cmd_args)
     else:
-        theme = ORIGINAL_THEME
+        theme, bg = ORIGINAL_THEME, WHITE_BACKGROUND
 
     # Create the standard PySAL logo based on Rey and Anselin (2007).
     # create full logo
-    create_logo(OUT_FILE, theme)
+    create_logo(OUT_FILE, theme, bg)
     # create logo favicons
-    create_favicon(OUT_FILE, theme)
+    create_favicon(OUT_FILE, theme, bg)
