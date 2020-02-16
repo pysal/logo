@@ -1,6 +1,7 @@
 """Functions for building the .tex file
 """
 
+
 def set_header_and_footer(font, convert_tikz, colors, cformat):
     header = r"""
     \documentclass[tikz%s]{standalone}
@@ -13,19 +14,19 @@ def set_header_and_footer(font, convert_tikz, colors, cformat):
         convert_tikz,
         font,
     )
-    
+
     defined = set()
-    
+
     for color, code in colors:
         if color not in defined:
             header += r"""
     \definecolor{%s}{%s}{%s}""" % (
-        color,
-        cformat,
-        code
-    )
+                color,
+                cformat,
+                code,
+            )
             defined.add(color)
-    
+
     header += r"""
     
     \begin{document}"""
@@ -129,4 +130,3 @@ def create_concept(concept_color, concept_text, concept_font_style, concept_font
         concept_text,
     )
     return tikz_concept
-
