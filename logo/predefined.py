@@ -40,7 +40,8 @@ def _theme_builder(theme_info, background):
     # set the color names and codes for LaTeX defined colors
     elif type(theme_info) == dict:
         theme_colors = [
-            (idx, color, latex_color_codes[color]["RGB"]) for idx, color in theme_info.items()
+            (idx, color, latex_color_codes[color]["RGB"])
+            for idx, color in theme_info.items()
         ]
         theme_colors.sort()
         theme_colors = [tc[1:] for tc in theme_colors]
@@ -55,11 +56,11 @@ def _theme_builder(theme_info, background):
         background_color = BLACK
     # pack up theme information
     theme = {
-        "node_info":node_info,
-        "color_format":"RGB",
-        "background_color":background_color,
-        "concept_color":DARKGRAY,
-        "text_color":WHITE,
+        "node_info": node_info,
+        "color_format": "RGB",
+        "background_color": background_color,
+        "concept_color": DARKGRAY,
+        "text_color": WHITE,
     }
     return theme
 
@@ -159,13 +160,24 @@ DARKGRAY = "darkgray", latex_color_codes["darkgray"]["RGB"]
 # these are indexed counterclockwise starting from ~8:00
 # "Traditional" PySAL colors from Rey and Anselin (2007)
 traditional_colors = {
-    0: "byzantium", 1: "alizarin", 2: "blue", 3: "green(html/cssgreen)", 4: "frenchbeige", 5: "darkred", 6: "orange(colorwheel)"
+    0: "byzantium",
+    1: "alizarin",
+    2: "blue",
+    3: "green(html/cssgreen)",
+    4: "frenchbeige",
+    5: "darkred",
+    6: "orange(colorwheel)",
 }
 
-# Canonical colors as of 02/2020
+# Canonical colors as of 02/2020 ----------------------------- SUBJECT TO CHANGE
 canon2020 = {
-    0: "byzantium", 1: "green(html/cssgreen)", 2: "orange(colorwheel)", 3: "alizarin", 4: "blue", 5: "selectiveyellow", 6: "skobeloff"
-
+    0: "byzantium",
+    1: "green(html/cssgreen)",
+    2: "orange(colorwheel)",
+    3: "alizarin",
+    4: "blue",
+    5: "selectiveyellow",
+    6: "skobeloff",
 }
 
 
@@ -180,5 +192,3 @@ cb_qual_Paired_n7_theme_light = _theme_builder("cb_qual_Paired_n7", "light")
 cb_qual_Paired_n7_theme_dark = _theme_builder("cb_qual_Paired_n7", "dark")
 cb_qual_Set1_n7_theme_light = _theme_builder("cb_qual_Set1_n7", "light")
 cb_qual_Set1_n7_theme_dark = _theme_builder("cb_qual_Set1_n7", "dark")
-
-
