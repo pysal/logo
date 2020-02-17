@@ -150,7 +150,7 @@ latex_color_names = defined_latex_colors.latex_color_names
 
 WHITE = "white", latex_color_codes["white"]["RGB"]
 BLACK = "black", latex_color_codes["black"]["RGB"]
-DARKGRAY = "darkgray", latex_color_codes["darkgray"]["RGB"]
+DARKGRAY = "dimgray", latex_color_codes["dimgray"]["RGB"]
 
 
 ################################################################################

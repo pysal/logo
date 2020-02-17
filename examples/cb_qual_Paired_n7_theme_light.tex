@@ -14,7 +14,7 @@
     \definecolor{red}{RGB}{227, 26, 28}
     \definecolor{beige}{RGB}{253, 191, 111}
     \definecolor{white}{RGB}{255.0, 255.0, 255.0}
-    \definecolor{darkgray}{RGB}{168.3, 168.3, 168.3}
+    \definecolor{dimgray}{RGB}{104.55, 104.55, 104.55}
     
     \begin{document}
     \begin{tikzpicture}[
@@ -23,7 +23,7 @@
         mindmap,
         grow cyclic,
         every node/.style=concept,
-        concept color=darkgray,
+        concept color=dimgray,
         text=white,
         level 1/.append style={
             level distance=5cm,
@@ -36,7 +36,7 @@
         }
     ]
     
-        \node[concept color=darkgray]{\large\bfseries{PySAL}}
+        \node[concept color=dimgray]{\large\bfseries{PySAL}}
         child [concept color=light blue]{ node {}
             child { node { }}
             child { node { }}
