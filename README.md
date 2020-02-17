@@ -17,7 +17,7 @@
  * M+ fonts
    * info -- https://mplus-fonts.osdn.jp/about-en.html
    * download -- https://osdn.net/projects/mplus-fonts/releases/<RELEASE>
-     * The files created with the initial push for this file were run on release <62344>. The current release for download is <p14454>.
+     * The files created with the initial push for this file were run on release `62344`. The current release for download is `p14454`.
     * ImageTricks (for favicon creation)
         * https://www.belightsoft.com/products/imagetricks/
 
