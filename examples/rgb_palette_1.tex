@@ -6,15 +6,15 @@
     \setmainfont{M+ 1mn}
     
     
-    \definecolor{60_174_163}{RGB}{60, 174, 163}
-    \definecolor{244_208_63}{RGB}{244, 208, 63}
-    \definecolor{250_215_160}{RGB}{250, 215, 160}
-    \definecolor{169_50_38}{RGB}{169, 50, 38}
-    \definecolor{118_68_138}{RGB}{118, 68, 138}
-    \definecolor{156_100_12}{RGB}{156, 100, 123}
-    \definecolor{229_152_102}{RGB}{229, 152, 102}
+    \definecolor{metallic}{RGB}{0, 121, 140}
+    \definecolor{tc}{RGB}{166, 58, 80}
+    \definecolor{yellow}{RGB}{237, 174, 73}
+    \definecolor{shamrock}{RGB}{102, 161, 130}
+    \definecolor{nvy}{RGB}{46, 64, 87}
+    \definecolor{vio}{RGB}{156, 100, 123}
+    \definecolor{orng}{RGB}{255, 107, 53}
     \definecolor{white}{RGB}{255.0, 255.0, 255.0}
-    \definecolor{darkgray}{RGB}{168.3, 168.3, 168.3}
+    \definecolor{dimgray}{RGB}{104.55, 104.55, 104.55}
     
     \begin{document}
     \begin{tikzpicture}[
@@ -23,7 +23,7 @@
         mindmap,
         grow cyclic,
         every node/.style=concept,
-        concept color=darkgray,
+        concept color=dimgray,
         text=white,
         level 1/.append style={
             level distance=5cm,
@@ -36,38 +36,38 @@
         }
     ]
     
-        \node[concept color=darkgray]{\large\bfseries{PySAL}}
-        child [concept color=60_174_163]{ node {}
+        \node[concept color=dimgray]{\large\bfseries{PySAL}}
+        child [concept color=metallic]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=244_208_63]{ node {}
+        child [concept color=tc]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=250_215_160]{ node {}
+        child [concept color=yellow]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=169_50_38]{ node {}
+        child [concept color=shamrock]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=118_68_138]{ node {}
+        child [concept color=nvy]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=156_100_12]{ node {}
+        child [concept color=vio]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=229_152_102]{ node {}
+        child [concept color=orng]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
