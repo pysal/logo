@@ -6,15 +6,15 @@
     \setmainfont{M+ 1mn}
     
     
-    \definecolor{byzantium}{RGB}{112.2, 40.800000000000004, 99.45}
-    \definecolor{alizarin}{RGB}{209.1, 25.5, 66.3}
-    \definecolor{blue}{RGB}{0.0, 0.0, 255.0}
-    \definecolor{green(html/cssgreen)}{RGB}{0.0, 127.5, 0.0}
-    \definecolor{frenchbeige}{RGB}{165.75, 122.39999999999999, 91.8}
-    \definecolor{darkred}{RGB}{140.25, 0.0, 0.0}
-    \definecolor{orange(colorwheel)}{RGB}{255.0, 127.5, 0.0}
+    \definecolor{metallic}{RGB}{0, 121, 140}
+    \definecolor{tc}{RGB}{209, 73, 91}
+    \definecolor{yellow}{RGB}{237, 174, 73}
+    \definecolor{shamrock}{RGB}{102, 161, 130}
+    \definecolor{nvy}{RGB}{46, 64, 87}
+    \definecolor{vio}{RGB}{156, 100, 123}
+    \definecolor{orng}{RGB}{239, 138, 23}
     \definecolor{white}{RGB}{255.0, 255.0, 255.0}
-    \definecolor{darkgray}{RGB}{168.3, 168.3, 168.3}
+    \definecolor{dimgray}{RGB}{104.55, 104.55, 104.55}
     
     \begin{document}
     \begin{tikzpicture}[
@@ -23,7 +23,7 @@
         mindmap,
         grow cyclic,
         every node/.style=concept,
-        concept color=darkgray,
+        concept color=dimgray,
         text=white,
         level 1/.append style={
             level distance=5cm,
@@ -36,38 +36,38 @@
         }
     ]
     
-        \node[concept color=darkgray]{\large\bfseries{PySAL}}
-        child [concept color=byzantium]{ node {}
+        \node[concept color=dimgray]{\large\bfseries{PySAL}}
+        child [concept color=metallic]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=alizarin]{ node {}
+        child [concept color=tc]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=blue]{ node {}
+        child [concept color=yellow]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=green(html/cssgreen)]{ node {}
+        child [concept color=shamrock]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=frenchbeige]{ node {}
+        child [concept color=nvy]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=darkred]{ node {}
+        child [concept color=vio]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}
          }
-        child [concept color=orange(colorwheel)]{ node {}
+        child [concept color=orng]{ node {}
             child { node { }}
             child { node { }}
             child { node { }}

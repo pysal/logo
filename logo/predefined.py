@@ -29,6 +29,8 @@ def _theme_builder(theme_info, background):
             theme_colors = cb_qual_Set1_n7
         elif theme_info == "cb_qual_Paired_n7":
             theme_colors = cb_qual_Paired_n7
+        elif theme_info == "canon2020":
+            theme_colors = canon2020
         else:
             raise RuntimeError("'%s' theme not found." % theme_info)
         _theme_colors = []
@@ -168,24 +170,25 @@ traditional_colors = {
     5: "darkred",
     6: "orange(colorwheel)",
 }
-
-# Canonical colors as of 02/2020 ----------------------------- SUBJECT TO CHANGE
-canon2020 = {
-    0: "byzantium",
-    1: "green(html/cssgreen)",
-    2: "orange(colorwheel)",
-    3: "alizarin",
-    4: "blue",
-    5: "selectiveyellow",
-    6: "skobeloff",
-}
-
-
 # Tradition/Canonical PySAL themes ---------------------------------------------
 traditional_theme_light = _theme_builder(traditional_colors, "light")
 traditional_theme_dark = _theme_builder(traditional_colors, "dark")
-canon2020_theme_light = _theme_builder(canon2020, "light")
-canon2020_theme_dark = _theme_builder(canon2020, "dark")
+
+# Canonical colors as of 02/2020 -----------------------------------------------
+names = ["metallic", "tc", "yellow", "shamrock", "nvy", "vio", "orng"]
+codes = [
+    "0, 121, 140",
+    "209, 73, 91",
+    "237, 174, 73",
+    "102, 161, 130",
+    "46, 64, 87",
+    "156, 100, 123",
+    "239, 138, 23",
+]
+canon2020 = create_dict(names, codes)
+canon2020_theme_light = _theme_builder("canon2020", "light")
+canon2020_theme_dark = _theme_builder("canon2020", "dark")
+
 
 # ColorBrewer2 themes ----------------------------------------------------------
 cb_qual_Paired_n7_theme_light = _theme_builder("cb_qual_Paired_n7", "light")
