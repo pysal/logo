@@ -14,6 +14,10 @@ How to use:
     1. See the `Examples` sections of the `create_logo()` and
         `create_favicon()` docstrings.
     2. See `PySAL_logo_creation.ipynb` for more examples.
+    3. For quick creation of the modernized 'canon2020/PySAL2020' logo
+        run the following from the command line within the top directory:
+        
+        $ python runner.py
 
 Requirements:
     Python 3.6+ (numpy)
@@ -46,7 +50,7 @@ File creation date:
 import os
 import subprocess
 
-from .predefined import CHILD_NODES, GRANDCHILD_NODES, traditional_theme_light
+from .predefined import CHILD_NODES, GRANDCHILD_NODES
 from . import build_tex_file
 
 
@@ -310,3 +314,6 @@ def create_favicon(
         currdir = os.getcwd()
         fs = [f for f in os.listdir(currdir) if f.startswith("%s" % fname)]
         [os.rename(f, "%s/%s%s" % (currdir, move_to, f)) for f in fs]
+
+if __name__ == "__main__":
+    create_logo(n, **theme)
