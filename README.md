@@ -2,6 +2,10 @@
 
 **This package is not unit-tested and not intended for distribution with the PySAL-meta package.**
 
+<p align="center">
+<img src="pysal_logo_light.png" width="200" height="200" />
+</p>
+
 ### Description
   * Create the PySAL logo with TeX/TikZ, then create favicons at specified resolutions with ImageTricks. The original logo design was based on Figure 1 from Rey and Anselin (2007). Examples are given within [`create_logo()`](https://github.com/pysal/logo/blob/master/logo/create_pysal_logo.py#L53) and [`create_favicon()`](https://github.com/pysal/logo/blob/5616bf4d4fd45f9d08f16ddb87af306411001c34/logo/create_pysal_logo.py#L212). Further examples can be found in [`PySAL_logo_creation.ipynb`](https://github.com/pysal/logo/blob/master/PySAL_logo_creation.ipynb).
   
@@ -10,6 +14,9 @@
 ### How to use
  * See the `Examples` sections of the `create_logo()` and `create_favicon()` docstrings.
  * See `PySAL_logo_creation.ipynb` for more examples.
+ * For quick creation of the modernized "canon2020/PySAL2020" logo
+ run the following from the command line within the top directory:
+     * `$ python runner.py`
 
 ### Requirements
  * Python 3.6+ (numpy)
