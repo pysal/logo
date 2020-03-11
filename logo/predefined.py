@@ -54,8 +54,10 @@ def _theme_builder(theme_info, background):
     # set background color
     if background == "light":
         background_color = WHITE
-    else:
+    elif background == "dark":
         background_color = BLACK
+    else:
+        background_color = TRANSPARENT
     # pack up theme information
     theme = {
         "node_info": node_info,
@@ -153,7 +155,7 @@ latex_color_names = defined_latex_colors.latex_color_names
 WHITE = "white", latex_color_codes["white"]["RGB"]
 BLACK = "black", latex_color_codes["black"]["RGB"]
 DARKGRAY = "dimgray", latex_color_codes["dimgray"]["RGB"]
-
+TRANSPARENT = None, None
 
 ################################################################################
 ####################      Pre-defined theme templates        ###################
@@ -171,6 +173,7 @@ traditional_colors = {
     6: "orange(colorwheel)",
 }
 # Tradition/Canonical PySAL themes ---------------------------------------------
+traditional_theme_transparent = _theme_builder(traditional_colors, "transparent")
 traditional_theme_light = _theme_builder(traditional_colors, "light")
 traditional_theme_dark = _theme_builder(traditional_colors, "dark")
 
@@ -186,12 +189,15 @@ codes = [
     "239, 138, 23",
 ]
 canon2020 = create_dict(names, codes)
+canon2020_theme_transparent = _theme_builder("canon2020", "transparent")
 canon2020_theme_light = _theme_builder("canon2020", "light")
 canon2020_theme_dark = _theme_builder("canon2020", "dark")
 
 
 # ColorBrewer2 themes ----------------------------------------------------------
+cb_qual_Paired_n7_theme_transparent = _theme_builder("cb_qual_Paired_n7", "transparent")
 cb_qual_Paired_n7_theme_light = _theme_builder("cb_qual_Paired_n7", "light")
 cb_qual_Paired_n7_theme_dark = _theme_builder("cb_qual_Paired_n7", "dark")
+cb_qual_Set1_n7_theme_transparent = _theme_builder("cb_qual_Set1_n7", "transparent")
 cb_qual_Set1_n7_theme_light = _theme_builder("cb_qual_Set1_n7", "light")
 cb_qual_Set1_n7_theme_dark = _theme_builder("cb_qual_Set1_n7", "dark")

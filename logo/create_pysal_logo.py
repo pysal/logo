@@ -67,7 +67,8 @@ def create_logo(
     concept_font_size="large",
     font="M+ 1mn",
     engine="lualatex",
-    convert_tikz=r",convert={outfile=\jobname.png}",
+    convert_tikz=r",convert={outfile=\jobname.%s}",
+    fmat="png",
     clean_up=["aux", "log", "pdf"],
 ):
     """
@@ -120,10 +121,13 @@ def create_logo(
     engine : str (Optional - Default is "lualatex")
         TeX engine to compile to document.
     
-    convert_tikz : str (Optional - Default is r",convert={outfile=\jobname.png})
-        Automatically convert the resultant .pdf to a .png,
-        in addition to the original .pdf. This parameter may also be set
-        to .jpg, .svg, etc.
+    convert_tikz : str (Optional - Default is r",convert={outfile=\jobname.%s})
+        TiKz keywords for automatically converting the resultant .pdf
+        to another format. See `fmat` below.
+    
+    fmat : str (Optional - png)
+        Convert the resultant .pdf to this format.
+        This parameter may also be set to .jpg, .svg, etc.
     
     clean_up : list (Optional - Default is ["aux", "log", "pdf"])
         Remove these types of files after processing. Add .tex to the
@@ -137,13 +141,13 @@ def create_logo(
     Rey and Anselin (2007).
     
     >>> import logo
-    >>> file_name, theme = "pysal_logo", logo.traditional_theme_light
+    >>> file_name, theme = "pysal_logo", logo.traditional_theme_transparent
     >>> logo.create_logo(file_name, **theme)
     
     See `PySAL_logo_creation.ipynb` for more examples.
     
     """
-
+    
     if len(node_info) != CHILD_NODES:
         err_msg = "There must be 7 elements in the logo, %s were passed in."
         raise RuntimeError(err_msg % len(node_info))
@@ -152,11 +156,14 @@ def create_logo(
     for nnc in [background_color, concept_color, text_color]:
         if nnc:
             non_node_colors.append(nnc)
+    
     defined_colors = list(node_info[:, 0]) + non_node_colors
-
+    # remove `None`s
+    defined_colors  = [dc for dc in defined_colors if dc[0] != None and dc[1] != None]
+    
     # create the .tex header and footer
     tex_header, tex_footer = build_tex_file.set_header_and_footer(
-        font, convert_tikz, defined_colors, color_format
+        font, convert_tikz % fmat, defined_colors, color_format
     )
 
     # set level distances and sibling angles
@@ -257,7 +264,7 @@ def create_favicon(
     Rey and Anselin (2007) at a resolution of 32x32.
     
     >>> import logo
-    >>> file_name, theme = "pysal_logo", logo.traditional_theme_light
+    >>> file_name, theme = "pysal_logo", logo.traditional_theme_transparent
     >>> theme["concept_text"] = ""
     >>> logo.create_favicon(file_name, resolution=32, **theme)
     
