@@ -61,11 +61,18 @@ def initialize_tikz(
     # pack distance, angle, and font arguments for each level
     args_l1 = level_distance_1, sibling_angle_1, font_size_l1
     args_l2 = level_distance_2, sibling_angle_2
+    
+    # set background of desired
+    if background_color != None:
+        background = r"""
+        background rectangle/.style={fill=%s},
+        show background rectangle,""" % background_color
+    else:
+        background = ""
+    
     # initialize tikz picture
     main_content = r"""
-    \begin{tikzpicture}[
-        background rectangle/.style={fill=%s},
-        show background rectangle,
+    \begin{tikzpicture}[%s
         mindmap,
         grow cyclic,
         every node/.style=concept,
@@ -82,7 +89,7 @@ def initialize_tikz(
         }
     ]
     """ % (
-        background_color,
+        background,
         concept_color,
         text_color,
         *args_l1,
