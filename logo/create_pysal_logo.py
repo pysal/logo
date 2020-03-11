@@ -315,5 +315,3 @@ def create_favicon(
         fs = [f for f in os.listdir(currdir) if f.startswith("%s" % fname)]
         [os.rename(f, "%s/%s%s" % (currdir, move_to, f)) for f in fs]
 
-if __name__ == "__main__":
-    create_logo(n, **theme)
