@@ -62,6 +62,7 @@ def create_logo(
     concept_color=None,
     text_color=None,
     move_to=None,
+    nav_logo=None,
     concept_text="PySAL",
     concept_font_style="bfseries",
     concept_font_size="large",
@@ -105,6 +106,10 @@ def create_logo(
     
     move_to : str
         Default is None. Move the output to the directory.
+    
+    nav_logo : dict
+        Parameters, including `text` and `font_style`, for creating the
+        navigation logo found in `http://pysal.org/index.html`.
     
     concept_text : str (Optional - Default is "PySAL")
         Text within the root node.
@@ -173,6 +178,7 @@ def create_logo(
 
     # create the tikz preamble
     tex_content = build_tex_file.initialize_tikz(
+        nav_logo,
         background_color[0],
         concept_color[0],
         text_color[0],
@@ -189,7 +195,7 @@ def create_logo(
         tex_content += build_tex_file.create_child(color[0], GRANDCHILD_NODES, text)
 
     # finalize the tikz object
-    tex_content += build_tex_file.finalize_tikz()
+    tex_content += build_tex_file.finalize_tikz(nav_logo)
 
     # combine all .tex file content
     fcontent = tex_header + tex_content + tex_footer
