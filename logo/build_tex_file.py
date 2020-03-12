@@ -7,6 +7,7 @@ def set_header_and_footer(font, convert_tikz, colors, cformat):
     \documentclass[tikz%s]{standalone}
     \usetikzlibrary{mindmap,trees,backgrounds}
     \usepackage{fontspec}
+    \usepackage{lmodern}
     \defaultfontfeatures{Ligatures=TeX,Scale=3}
     \setmainfont{%s}
     
@@ -45,6 +46,7 @@ def level_distances_and_sibling_angles(child_nodes, grandchild_nodes):
 
 
 def initialize_tikz(
+    nav_logo,
     background_color,
     concept_color,
     text_color,
@@ -61,11 +63,25 @@ def initialize_tikz(
     # pack distance, angle, and font arguments for each level
     args_l1 = level_distance_1, sibling_angle_1, font_size_l1
     args_l2 = level_distance_2, sibling_angle_2
+    
+    # set a scope environment if for the navigation/index logo
+    if nav_logo:
+        scope = r"""
+        \begin{scope}"""
+    else:
+        scope = ""
+    
+    # set background of desired
+    if background_color != None:
+        background = r"""
+        background rectangle/.style={fill=%s},
+        show background rectangle,""" % background_color
+    else:
+        background = ""
+    
     # initialize tikz picture
     main_content = r"""
-    \begin{tikzpicture}[
-        background rectangle/.style={fill=%s},
-        show background rectangle,
+    \begin{tikzpicture}%s[%s
         mindmap,
         grow cyclic,
         every node/.style=concept,
@@ -82,7 +98,8 @@ def initialize_tikz(
         }
     ]
     """ % (
-        background_color,
+        scope,
+        background,
         concept_color,
         text_color,
         *args_l1,
@@ -91,10 +108,27 @@ def initialize_tikz(
     return main_content
 
 
-def finalize_tikz():
+def finalize_tikz(nav_logo):
+    # set scope variables if navigation logo
+    if nav_logo:
+        if nav_logo["font_style"] == "\bfseries":
+            text = "%s{%s}" % (nav_logo["font_style"], nav_logo["text"])
+        else:
+            text = nav_logo["text"]
+        scope = r"""
+        \end{scope}
+        \begin{scope}
+        \node[text width=950] at (26.5,-1) {\fontsize{125}{50}\selectfont %s};
+        \end{scope}""" % text
+    else:
+        scope = ""
+    
+    # final `tikzpicture` environment
     end_tikzpicture = r"""
                 ;
-    \end{tikzpicture}"""
+    %s
+    \end{tikzpicture}""" % scope
+    
     return end_tikzpicture
 
 
