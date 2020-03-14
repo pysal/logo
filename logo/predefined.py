@@ -21,7 +21,7 @@ def create_dict(_names, _codes, _format="RGB"):
     return schema
 
 
-def _theme_builder(theme_info, background):
+def _theme_builder(theme_info, background, concept_color=None, text_color=None):
     """Helper for building a theme."""
     # set the color names and codes for ColorBrewer2 defined colors
     if type(theme_info) == str:
@@ -58,13 +58,18 @@ def _theme_builder(theme_info, background):
         background_color = BLACK
     else:
         background_color = TRANSPARENT
+    
     # pack up theme information
+    if concept_color == None:
+        concept_color = DARKGRAY
+    if text_color == None:
+        text_color = WHITE
     theme = {
         "node_info": node_info,
         "color_format": "RGB",
         "background_color": background_color,
-        "concept_color": DARKGRAY,
-        "text_color": WHITE,
+        "concept_color": concept_color,
+        "text_color": text_color,
     }
     return theme
 
@@ -77,9 +82,45 @@ def _theme_builder(theme_info, background):
 CHILD_NODES = 7
 GRANDCHILD_NODES = 3
 
+# PySAL text for logos
+space = "\hspace{.5ex}"
+PySAL = "PySAL"
+PySAL_full = "Python %s Spatial %s Analysis %s Library" % (space, space, space)
+
+# PySAL logo with only acronym
+psnav_1line_loc = r"\node[text width=950] at (26.5,-1) "
+psnav_1line_text = r"{\fontsize{125}{50}\selectfont %s};" % PySAL
+psnav_1line = psnav_1line_loc + psnav_1line_text
+
+# PySAL logo with acronym and definition
+psnav_2line_l1loc = r"\node[text width=900] at (27.5, 2) "
+psnav_2line_l1text = r"{\fontsize{75}{0}\selectfont %s};" % PySAL
+psnav_2line_l1 = psnav_2line_l1loc + psnav_2line_l1text
+psnav_2line_l2loc = r"\node[text width=1200] at (33.25, -4) "
+psnav_2line_l2text = r"{\fontsize{25}{0}\selectfont %s};" % PySAL_full
+psnav_2line_l2 = psnav_2line_l2loc + psnav_2line_l2text
+psnav_2line = psnav_2line_l1 + "\n" + psnav_2line_l2
+
+# submodule constants ----------------------------------------------------------
+# spaghetti
+spgh_spaces = (space, space, space, space, space)
+spaghetti = r"pysal/spaghetti"
+spaghetti_full_a = r"\textbf{spa}tial %s \textbf{g}rap\textbf{h}s: %s "
+spaghetti_full_b = r"n\textbf{et}works, %s \textbf{t}opology, %s "
+spaghetti_full_c = r"\& %s \textbf{i}nference"
+spaghetti_full = spaghetti_full_a + spaghetti_full_b + spaghetti_full_c
+spaghetti_full = spaghetti_full % spgh_spaces
+spgh_nav_l1loc = r"\node[text width=1000] at (27, 2) "
+spgh_nav_l1text = r"{\fontsize{75}{0}\selectfont %s};" % spaghetti
+spgh_nav_l1 = spgh_nav_l1loc + spgh_nav_l1text
+spgh_nav_l2loc = r"\node[text width=1800] at (41.5,-4) "
+spgh_nav_l2text = r"{\fontsize{25}{0}\selectfont %s};" % spaghetti_full
+spgh_nav_l2 = spgh_nav_l2loc + spgh_nav_l2text
+spgh_long = spgh_nav_l1 + "\n" + spgh_nav_l2
+
 
 ################################################################################
-#########################      Pre-defined text        #########################
+#######################      Pre-defined node text        ######################
 ################################################################################
 
 NO_TEXT = [""] * CHILD_NODES
@@ -201,3 +242,19 @@ cb_qual_Paired_n7_theme_dark = _theme_builder("cb_qual_Paired_n7", "dark")
 cb_qual_Set1_n7_theme_transparent = _theme_builder("cb_qual_Set1_n7", "transparent")
 cb_qual_Set1_n7_theme_light = _theme_builder("cb_qual_Set1_n7", "light")
 cb_qual_Set1_n7_theme_dark = _theme_builder("cb_qual_Set1_n7", "dark")
+
+
+################################################################################
+##########################      Submodule themes        ########################
+################################################################################
+
+
+# spaghetti
+spaghetti_colors = {idx:"arylideyellow" for idx in range(CHILD_NODES)}
+spaghetti_theme_transparent = _theme_builder(
+    spaghetti_colors,
+    "transparent",
+    concept_color=("vividauburn", latex_color_codes["vividauburn"]["RGB"])
+)
+
+
