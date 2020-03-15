@@ -15,7 +15,7 @@ from logo import canon2020_theme_transparent, psnav_1line, psnav_2line
 logo_name = "pysal_logo"
 
 # create the logo
-create_logo(logo_name, **canon2020_theme_transparent)
+create_logo(logo_name, fmat="svg", **canon2020_theme_transparent)
 
 # create favicons
 fcon_res = ["32", "48", "64"]
