@@ -1,0 +1,77 @@
+
+    \documentclass[tikz,convert={outfile=\jobname.svg}]{standalone}
+    \usetikzlibrary{mindmap,trees,backgrounds}
+    \usepackage{fontspec}
+    \usepackage{lmodern}
+    \defaultfontfeatures{Ligatures=TeX,Scale=3}
+    \setmainfont{M+ 1mn}
+    
+    
+    \definecolor{arylideyellow}{RGB}{232.05, 214.2, 107.1}
+    \definecolor{vividauburn}{RGB}{147.89999999999998, 38.25, 35.7}
+    \definecolor{white}{RGB}{255.0, 255.0, 255.0}
+    
+    \begin{document}
+    \begin{tikzpicture}
+        \begin{scope}[
+        mindmap,
+        grow cyclic,
+        every node/.style=concept,
+        concept color=vividauburn,
+        text=white,
+        level 1/.append style={
+            level distance=5cm,
+            sibling angle=51,
+            font=\Huge
+        },
+        level 2/.append style={
+            level distance=3cm,
+            sibling angle=45
+        }
+    ]
+    
+        \node[concept color=vividauburn]{\large\bfseries{}}
+        child [concept color=arylideyellow]{ node {}
+            child { node { }}
+            child { node { }}
+            child { node { }}
+         }
+        child [concept color=arylideyellow]{ node {}
+            child { node { }}
+            child { node { }}
+            child { node { }}
+         }
+        child [concept color=arylideyellow]{ node {}
+            child { node { }}
+            child { node { }}
+            child { node { }}
+         }
+        child [concept color=arylideyellow]{ node {}
+            child { node { }}
+            child { node { }}
+            child { node { }}
+         }
+        child [concept color=arylideyellow]{ node {}
+            child { node { }}
+            child { node { }}
+            child { node { }}
+         }
+        child [concept color=arylideyellow]{ node {}
+            child { node { }}
+            child { node { }}
+            child { node { }}
+         }
+        child [concept color=arylideyellow]{ node {}
+            child { node { }}
+            child { node { }}
+            child { node { }}
+         }
+                ;
+    
+        \end{scope}
+        \begin{scope}
+        \node[text width=1000] at (27, 2) {\fontsize{75}{0}\selectfont pysal/spaghetti};
+\node[text width=1800] at (41.5,-4) {\fontsize{25}{0}\selectfont \textbf{spa}tial \hspace{.5ex} \textbf{g}rap\textbf{h}s: \hspace{.5ex} n\textbf{et}works, \hspace{.5ex} \textbf{t}opology, \hspace{.5ex} \& \hspace{.5ex} \textbf{i}nference};
+        \end{scope}
+    \end{tikzpicture}
+    \end{document}

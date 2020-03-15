@@ -1,6 +1,8 @@
 """Functions for building the .tex file
 """
 
+from .predefined import psnav_1line, psnav_2line
+
 
 def set_header_and_footer(font, convert_tikz, colors, cformat):
     header = r"""
@@ -111,15 +113,11 @@ def initialize_tikz(
 def finalize_tikz(nav_logo):
     # set scope variables if navigation logo
     if nav_logo:
-        if nav_logo["font_style"] == "\bfseries":
-            text = "%s{%s}" % (nav_logo["font_style"], nav_logo["text"])
-        else:
-            text = nav_logo["text"]
         scope = r"""
         \end{scope}
         \begin{scope}
-        \node[text width=950] at (26.5,-1) {\fontsize{125}{50}\selectfont %s};
-        \end{scope}""" % text
+        %s
+        \end{scope}""" % nav_logo
     else:
         scope = ""
     
