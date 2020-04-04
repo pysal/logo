@@ -235,7 +235,7 @@ def create_favicon(
     text_color=None,
     move_to=None,
     concept_text=None,
-    resolution=32,
+    resolution="64,48,32,16",
     clean_up=True,
 ):
     """
@@ -258,7 +258,7 @@ def create_favicon(
     color_format : see `create_logo()`
     
     resolutions : list (Default is 32)
-        Resolutions for the .ico files. Can include {16, 28, 32, 48, 64}.
+        Auto-resize esolutions for the .ico files.
     
     clean_up : bool (Default is True)
         Remove all files needed to create the .ico files.
@@ -272,7 +272,7 @@ def create_favicon(
     >>> import logo
     >>> file_name, theme = "pysal_logo", logo.traditional_theme_transparent
     >>> theme["concept_text"] = ""
-    >>> logo.create_favicon(file_name, resolution=32, **theme)
+    >>> logo.create_favicon(file_name, **theme)
     
     """
 
@@ -297,31 +297,21 @@ def create_favicon(
         [
             "convert",
             "%s.png" % fname,
-            "-background",
-            "white",
-            "-clone",
-            "0",
-            "-resize",
-            "%sx%s" % (resolution, resolution),
-            "-extent",
-            "%sx%s" % (resolution, resolution),
-            "-delete",
-            "0",
-            "-alpha",
-            "off",
-            "-colors",
-            "256",
-            "%s_%s.ico" % (fname, resolution),
+            "-define",
+            "icon:auto-resize=64,48,32,16",
+            "%s.ico" % fname,
         ]
     ).wait()
 
     # remove all files needed to create the favicons
     # except the favicons themselves
     if clean_up:
-        find = ["find", ".", "-type", "f", "-maxdepth", "1", "-name"]
-        find.extend(["%s.*" % fname, "-delete"])
+        find = ["find", ".", "-type", "f", "-maxdepth", "1"]
+        find.extend(["-name", "%s.*" % fname])
+        find.extend(["!", "-name", "%s.ico" % fname])
+        find.extend(["-delete"])
         subprocess.Popen(find).wait()
-
+    
     # move the products to a new directory
     if move_to:
         currdir = os.getcwd()

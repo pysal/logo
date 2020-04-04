@@ -18,10 +18,8 @@ logo_name = "pysal_logo"
 create_logo(logo_name, fmat="svg", **canon2020_theme_transparent)
 
 # create favicons
-fcon_res = ["32", "48", "64"]
 canon2020_theme_transparent["concept_text"] = ""
-for fr in fcon_res:
-    create_favicon(logo_name, resolution=fr, **canon2020_theme_transparent)
+create_favicon(logo_name, **canon2020_theme_transparent)
 
 # create the navigation/index logos
 canon2020_theme_transparent["nav_logo"] = psnav_1line
