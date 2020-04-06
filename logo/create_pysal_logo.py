@@ -152,7 +152,7 @@ def create_logo(
     See `PySAL_logo_creation.ipynb` for more examples.
     
     """
-    
+
     if len(node_info) != CHILD_NODES:
         err_msg = "There must be 7 elements in the logo, %s were passed in."
         raise RuntimeError(err_msg % len(node_info))
@@ -161,11 +161,11 @@ def create_logo(
     for nnc in [background_color, concept_color, text_color]:
         if nnc:
             non_node_colors.append(nnc)
-    
+
     defined_colors = list(node_info[:, 0]) + non_node_colors
     # remove `None`s
-    defined_colors  = [dc for dc in defined_colors if dc[0] != None and dc[1] != None]
-    
+    defined_colors = [dc for dc in defined_colors if dc[0] != None and dc[1] != None]
+
     # create the .tex header and footer
     tex_header, tex_footer = build_tex_file.set_header_and_footer(
         font, convert_tikz % fmat, defined_colors, color_format
@@ -235,7 +235,7 @@ def create_favicon(
     text_color=None,
     move_to=None,
     concept_text=None,
-    resolution=32,
+    resolutions="64,48,32,16",
     clean_up=True,
 ):
     """
@@ -257,8 +257,8 @@ def create_favicon(
     
     color_format : see `create_logo()`
     
-    resolutions : list (Default is 32)
-        Resolutions for the .ico files. Can include {16, 28, 32, 48, 64}.
+    resolutions : str (Default is '64,48,32,16')
+        Auto-resize to these resolutions for the .ico files.
     
     clean_up : bool (Default is True)
         Remove all files needed to create the .ico files.
@@ -272,7 +272,7 @@ def create_favicon(
     >>> import logo
     >>> file_name, theme = "pysal_logo", logo.traditional_theme_transparent
     >>> theme["concept_text"] = ""
-    >>> logo.create_favicon(file_name, resolution=32, **theme)
+    >>> logo.create_favicon(file_name, **theme)
     
     """
 
@@ -297,29 +297,19 @@ def create_favicon(
         [
             "convert",
             "%s.png" % fname,
-            "-background",
-            "white",
-            "-clone",
-            "0",
-            "-resize",
-            "%sx%s" % (resolution, resolution),
-            "-extent",
-            "%sx%s" % (resolution, resolution),
-            "-delete",
-            "0",
-            "-alpha",
-            "off",
-            "-colors",
-            "256",
-            "%s_%s.ico" % (fname, resolution),
+            "-define",
+            "icon:auto-resize=%s" % resolutions,
+            "%s.ico" % fname,
         ]
     ).wait()
 
     # remove all files needed to create the favicons
     # except the favicons themselves
     if clean_up:
-        find = ["find", ".", "-type", "f", "-maxdepth", "1", "-name"]
-        find.extend(["%s.*" % fname, "-delete"])
+        find = ["find", ".", "-type", "f", "-maxdepth", "1"]
+        find.extend(["-name", "%s.*" % fname])
+        find.extend(["!", "-name", "%s.ico" % fname])
+        find.extend(["-delete"])
         subprocess.Popen(find).wait()
 
     # move the products to a new directory
@@ -327,4 +317,3 @@ def create_favicon(
         currdir = os.getcwd()
         fs = [f for f in os.listdir(currdir) if f.startswith("%s" % fname)]
         [os.rename(f, "%s/%s%s" % (currdir, move_to, f)) for f in fs]
-
